@@ -19,6 +19,6 @@
     
   },
   "scripts": {
-    "start": "cypress open"
+    "start": "cypress run"
   }
 }
