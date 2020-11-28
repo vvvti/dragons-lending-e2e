@@ -1,0 +1,86 @@
+def call(Map pipelineParams) {
+    pipeline {
+        agent any
+        options {
+            ansiColor('xterm')
+            timestamps()
+        }
+        environment {
+            BITBUCKET_URL = "https//bitbucket.fintechchallenge.pl:31999/ersa/dragons-lending-e2e.git"
+            CLONE_DIR_NAME = "${pipelineParams.bitbucketProjectKey}-${params.name}-${params.version}"
+        }
+        stages {
+            stage("Parameters") {
+                steps {
+                    script {
+                        properties([
+                                parameters([
+                                        string(name: 'name', defaultValue: '', description: '[required] Name of the Bitbucket repository to deploy'),
+                                        string(name: 'deployment_name', defaultValue: '', description: "[required] Name of application's kubernetes deployment"),
+                                        string(name: 'version', defaultValue: '', description: '[required] Version of the application to deploy'),
+                                        string(name: 'path_to_kubernetes', defaultValue: './', description: '[required] Relative path for kubernetes files (directory)'),
+                                ])
+                        ])
+                        if (!params.name) {
+                            error("'name' parameter must not be empty")
+                        }
+                        if(!params.deployment_name) {
+                            error("'deployment_name' parameter must not be empty")
+                        }
+                        if (!params.version) {
+                            error("'version' parameter must not be empty")
+                        }
+                        if (!params.path_to_kubernetes) {
+                            error("'path_to_kubernetes' parameter must not be empty")
+                        }
+                        if (!pipelineParams || !pipelineParams.bitbucketProjectKey) {
+                            error("'bitbucketProjectKey' pipeline parameter must not be empty")
+                        }
+                    }
+                }
+            }
+            stage('Clone git and deploy') {
+                agent { docker 'fintech/kubernetes-agent' }
+                steps {
+                    script {
+                        dir(env.CLONE_DIR_NAME) {
+
+                            //clone
+                            try {
+                                git(
+                                        branch: 'master',
+                                        credentialsId: 'bitbucket-user-pass',
+                                        url: "${BITBUCKET_URL}/scm/${pipelineParams.bitbucketProjectKey}/${params.name}.git"
+                                )
+                            } catch (Exception ignored) {
+                                error("Git clone failed - check 'name' variable - it must be the same as repository in ${pipelineParams.bitbucketProjectKey} Bitbucket project")
+                            }
+
+                            // deploy
+                            withCredentials([file(credentialsId: "${pipelineParams.bitbucketProjectKey}-kubeconfig-prod", variable: 'KUBECONFIG')]) {
+
+                                sh "sed -i 's/image_version_placeholder/${params.version}/g' ${params.path_to_kubernetes}/kubernetes-prod.yaml"
+
+                                sh "kubectl apply -f ${params.path_to_kubernetes}/kubernetes-prod.yaml"
+                                sh "kubectl rollout restart deployment ${params.deployment_name}"
+                                sh "kubectl rollout status deployment ${params.deployment_name} --timeout=5m"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        post {
+            always {
+                deleteDir()
+                script {
+                    def color = currentBuild.currentResult == 'SUCCESS' ? "#00FF00" : "#FF0000"
+                    slackSend(
+                            color: color,
+                            message: "Deploy finished! [${pipelineParams.bitbucketProjectKey}/${params.deployment_name}:${params.version}]"
+                    )
+                }
+            }
+        }
+    }
+}
