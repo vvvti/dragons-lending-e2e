@@ -1,0 +1,22 @@
+{
+  "name": "lending-e2e",
+  "version": "1.0.0",
+  "description": "e2e test for dragons-lending with cypress",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "cypress": "^6.0.0"
+  },
+  "devDependencies": {
+    "@bahmutov/add-typescript-to-cypress": "^2.1.2",
+    "@testing-library/cypress": "^7.0.2",
+    "@types/jest": "^26.0.15",
+    "@types/testing-library__cypress": "^5.0.8",
+    "ts-loader": "^8.0.11",
+    "typescript": "^4.1.2",
+    "webpack": "^5.8.0"
+  },
+  "scripts": {
+    "start": "cypress open"
+  }
+}
