@@ -1,7 +1,7 @@
 type Url = string;
 it('logins and add an auction', () => {
-    // const url: Url = 'https://dragons-lending.ersa-team.sit.fintechchallenge.pl';
-    const url: Url = 'localhost:3000';
+    const url: Url = 'https://dragons-lending.ersa-team.sit.fintechchallenge.pl';
+    // const url: Url = 'localhost:3000';
     cy.visit(url, {
         auth: {
             username: 'ersa',
