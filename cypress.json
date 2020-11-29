@@ -1,4 +1,5 @@
 {
+    
     "baseUrl": "https://dragons-lending.ersa-team.sit.fintechchallenge.pl",
     "integrationFolder": "cypress/integration",
     "screenshotsFolder": "cypress/screenshots",
