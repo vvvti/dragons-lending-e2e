@@ -1,6 +1,6 @@
 {
     
-    "baseUrl": "http://localhost:3000",
+    "baseUrl": "https://dragons-lending.ersa-team.sit.fintechchallenge.pl",
     "integrationFolder": "cypress/integration",
     "screenshotsFolder": "cypress/screenshots",
     "supportFile": false,

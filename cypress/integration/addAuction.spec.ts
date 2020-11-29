@@ -8,7 +8,7 @@ it('logins checks account data and add an auction then logout', () => {
             username: 'ersa',
             password: '7c8aq9dp',
         },
-    });
+    })
 
     cy.get('[data-test-id="login-link"]').click();
     cy.get('[id="email"]').type(userEmail);
@@ -30,13 +30,14 @@ it('logins checks account data and add an auction then logout', () => {
         .type('18');
     cy.get('[id="interestRate"]')
         .clear()
-        .type('8');
+        .type('8')
     cy.get('[id="endDate"]')
         .clear()
-        .type('2020-12-31');
+        .type('2020-12-31')
     cy.get('[data-test-id="create-button"]').click()
     cy.wait(600)
     cy.get('[data-test-id="account-link"]').click()
+    cy.wait(600)
     cy.get('[data-test-id="logout-button"]').click()
     cy.get('[data-test-id="login-link"]').contains('login')
 });

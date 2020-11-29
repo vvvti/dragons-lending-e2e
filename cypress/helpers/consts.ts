@@ -9,11 +9,11 @@ import {
 } from './types';
 
 
-// export const url: Url = 'https://dragons-lending.ersa-team.sit.fintechchallenge.pl';
-export const url: Url = 'localhost:3000';
-export const userEmail: UserEmail ='lewandowski@gmail.com';
-export const password: UserPassword = 'lewandowski@2020';
-export const userName: UserName = 'robert2020';
-export const firstName: UserFirstName = 'Robert';
-export const lastName: UserLastName = 'Lewandowski';
-export const accountNumber: AccountNumber = '';
+export const url: Url = 'https://dragons-lending.ersa-team.sit.fintechchallenge.pl';
+// export const url: Url = 'localhost:3000';
+export const userEmail: UserEmail ='SYSTEM_TEST@SYSTEM_TEST.com';
+export const password: UserPassword = 'kkkkkkkk';
+export const userName: UserName = 'SYSTEM_TEST';
+export const firstName: UserFirstName = 'SYSTEM_TEST';
+export const lastName: UserLastName = 'SYSTEM_TEST';
+export const accountNumber: AccountNumber = '7c3c9d7b-e152-4a78-b1a0-9ce83a1f2aa6';

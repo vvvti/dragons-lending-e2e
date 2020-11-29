@@ -16,17 +16,22 @@ it('try to login with inccorect credential, visit non existing route and try to 
     cy.get('[data-test-id="login-button"]').click()
     cy.wait(600)
     cy.get('[data-test-id="error-message"]').contains('Please check your credentials')
-    cy.visit('/fakeUrl')
-    cy.get('[data-test-id="home-link"]').contains('home')
-    cy.visit('/userAccount')
-    cy.get('[data-test-id="unathorized-link"]').contains('login')
-    // cy.get('[data-test-id="auctions-link"]').click();
-    cy.visit('/auctions', {
+    cy.visit('/fakeUrl', {
         auth: {
             username: 'ersa',
             password: '7c8aq9dp',
         },
-    });
+    })
+    cy.get('[data-test-id="home-link"]').contains('home')
+    cy.visit('/userAccount', {
+        auth: {
+            username: 'ersa',
+            password: '7c8aq9dp',
+        },
+    })
+    cy.get('[data-test-id="unathorized-link"]').contains('login')
+    cy.get('[data-test-id="auctions-link"]').click();
+    
     cy.wait(700)
     cy.get('[data-test-id="auction"]').contains('Expire on:')
 });
