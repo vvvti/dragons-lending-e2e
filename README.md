@@ -1,3 +1,12 @@
+# ABOUT
+
+End-to-end tests for Fintechchallenge Dragons-lending application
+
+## Used technologies:
+
+-   [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
+-   [Cypress](https://www.cypress.io/)
+
 # Cypress.io end-to-end tests
 
 [Cypress.io](https://www.cypress.io) is an open source, MIT licensed end-to-end test runner
